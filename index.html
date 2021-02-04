@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="city" type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="search" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img id="imageIcon" src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="cityName">Dhaka</h1>
+            <h3><span id="temperature">38.06</span>&deg;C</h3>
+            <h1 id="weatherInfo" class="lead">Clouds</h1>
+            <!-- <p id="windSInfo" class="lead">Speed</p>
+            <p id="windDInfo" class="lead">Degree</p> -->
+        </div>
+    </div>
+    <script>
+        document.getElementById('search').addEventListener('click', function () {
+            const city = document.getElementById('city').value;
+            getWeather(city);
+        })
+        function getWeather(city) {
+            const apiKey = '6902bc4408454e561c0d47a5b23c80cc';
+            const apiBase = 'https://api.openweathermap.org/data/2.5/weather';
+            const url = `${apiBase}?q=${city}&units=metric&appid=${apiKey}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => setData(data))
+                .catch(error => {
+                    alert('place name is not valid');
+                    document.getElementById('city').value = '';
+                })
+        }
+        function setData(data) {
+            document.getElementById('cityName').innerText = data.name;
+            document.getElementById('temperature').innerText = data.main.temp;
+            // document.getElementById('windSInfo').innerText = data.wind.speed;
+            // document.getElementById('windDInfo').innerText = data.wind.deg;
+            document.getElementById('weatherInfo').innerText = data.weather[0].main;
+            document.getElementById('imageIcon').setAttribute('src',`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`);
+            document.getElementById('city').value = '';
+
+        }
+    </script>
+
+
+    <!-- document.getElementById('search').addEventListener('click',function(){
+    const city = document.getElementById('city').value;
+    getWeather(city);
+    })
+
+    function getWeather(city){
+    const apiKey = 'e34535d7bb39be2ae944f32c2dbebb4f';
+    const apiBase = 'https://api.openweathermap.org/data/2.5/weather';
+    const url = `${apiBase}?q=${city}&units=metric&appid=${apiKey}`;
+    console.log('url',url);
+    fetch(url)
+    .then(response => response.json())
+    .then(data => setData(data))
+    }
+
+    function setData(data){
+    console.log('data',data.name);
+    document.getElementById('city-name').innerText = data.name;
+    document.getElementById('temperature').innerText = data.main.temp;
+    document.getElementById('weather-info').innerText = data.weather[0].main;
+    document.getElementById('image-icon').setAttribute('src',
+    `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`);
+    document.getElementById('city').value = ''; -->
+
+    }
+
+</body>
+
+</html>
